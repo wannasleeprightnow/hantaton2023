@@ -9,7 +9,7 @@ from parse import (
     get_gov_services,
     get_technology_startup_accelerator,
     get_umnik,
-    young_inventor_of_ugra_info
+    get_young_inventor_of_ugra
 )
 from keyboard import reply_keyboard, reply_contest_keyboard
 
@@ -25,7 +25,7 @@ async def command_start_handler(message: types.Message) -> None:
 
 @router.message(F.text == "Помощь")
 async def command_help_handler(message: types.Message) -> None:
-    await message.answer("help")
+    await message.answer("help", reply_markup=reply_keyboard)
 
 
 @router.message(F.text == "Ближайшие мероприятия")
@@ -58,6 +58,6 @@ async def command_umnik_handler(message: types.Message) -> None:
     await message.answer(await get_umnik(), reply_markup=reply_keyboard)
 
 
-# @router.message(F.text == "Конкурс «Молодой изобретатель Югры»")
-# async def command_contests_handler(message: types.Message) -> None:
-#     await message.answer("Выберите конкурс:", reply_markup=await contests_inline_keyboard())
+@router.message(F.text == "Конкурс «Молодой изобретатель Югры»")
+async def command_contests_handler(message: types.Message) -> None:
+    await message.answer(await get_young_inventor_of_ugra(), reply_markup=reply_keyboard)

@@ -54,18 +54,18 @@ async def get_technology_startup_accelerator():
                 "tn_text_1680109490276", "tn_text_1649627889743","tn_text_1649628542930",
                 "tn_text_1649628600528", "tn_text_1649628583857", "tn_text_1649628647594"
                 ]
-            info = [soup.find("div", {"class": "tn-atom", "field": field}).text.replace("\xa0", " ").capitalize() for field in fields]
-            info[0] = hbold(info[0]) + ".\n"
-            info[1] = hbold(info[1])
-            info[7] += "\n"
-            info[8] = hbold(info[8])
-            info[15] += "\n"
-            info[16] = hbold(info[16])
-            info[2:8] = list(map(lambda x: " - " + x, info[2:8]))
-            info[9:16] = list(map(lambda x: " - " + x, info[9:16]))
-            info[17:23] = list(map(lambda x: " - " + x, info[17:23]))
-            info.append(f"\n{hbold('Подробнее')}: https://www.tech-startups.ru/")
-            return '\n'.join(info)
+        info = [soup.find("div", {"class": "tn-atom", "field": field}).text.replace("\xa0", " ").capitalize() for field in fields]
+        info[0] = hbold(info[0]) + ".\n"
+        info[1] = hbold(info[1])
+        info[7] += "\n"
+        info[8] = hbold(info[8])
+        info[15] += "\n"
+        info[16] = hbold(info[16])
+        info[2:8] = list(map(lambda x: " - " + x, info[2:8]))
+        info[9:16] = list(map(lambda x: " - " + x, info[9:16]))
+        info[17:23] = list(map(lambda x: " - " + x, info[17:23]))
+        info.append(f"\n{hbold('Подробнее')}: https://www.tech-startups.ru/")
+        return '\n'.join(info)
 
 
 async def get_umnik():
@@ -82,11 +82,42 @@ async def get_umnik():
     info[0] = hbold(info[0])
     info[2] = hbold(info[2])
     info[17] = hbold(info[17])
-    info[18:23] = list(map(lambda x: x[:-1], info[18:23]))
+    info[3] = " - " + info[3]
+    info[5] = " - " + info[5]
+    info[7] = " - " + info[7]
+    info[9] = " - " + info[9]
+    info[11] = " - " + info[11]
+    info[13] = " - " + info[13]
+    info[15] = " - " + info[15]
+    info[18:24] = list(map(lambda x: " - " + x[:-1], info[18:24]))
+    info.append(f"\n{hbold('Подробнее')}: https://umnik.fasie.ru/")
     return '\n\n'.join(info)
 
 
-async def young_inventor_of_ugra_info():
+async def get_young_inventor_of_ugra():
     async with aiohttp.ClientSession() as session:
-        async with session.get("https://www.tp86.ru/residents/add/") as resp:
+        async with session.get("https://tp86.ru/molodoy-izobretatel-yugry/index.php") as resp:
             soup = BeautifulSoup(await resp.text(), "html.parser")
+            info = []
+            info += soup.find("h2", {"class": "raketa-info__info-title"})
+            info += soup.find("h3", {"class": "deadlines__title"})
+            info += soup.find_all("p", {"class": "deadlines__item-description"})
+            info += soup.find("h4", {"class": "raketa-info__info-task-title"})
+            info += soup.find("div", {"class": "raketa-info__info-task-container"}).find_all("p")
+            info += soup.find("h3", {"class": "who-participant__title"})
+            info += soup.find("div", {"class": "who-participant__container"}).find_all("p")
+    info = [i.text.replace("\xa0", " ").replace("\n", "").replace("\t", "").strip() for i in info]
+    info[0] = hbold(info[0])
+    info[2] = " - " + info[2]
+    info[3] = " - " + info[3]
+    info[5] = " - " + info[5]
+    info[6] = " - " + info[6]
+    info[7] = " - " + info[7]
+    info[9] = " - " + info[9]
+    info[10] = " - " + info[10]
+    info[11] = " - " + info[11]
+    info[1] = hbold(info[1])
+    info[4] = hbold(info[4])
+    info[8] = hbold(info[8])
+    info.append(f"\n{hbold('Подробнее')}: https://tp86.ru/molodoy-izobretatel-yugry/index.php")
+    return "\n\n".join(info)
