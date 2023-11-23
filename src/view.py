@@ -21,8 +21,9 @@ class View:
 
     async def _check_last_formating_time(self):
         delta = datetime.datetime.now().timestamp() - self._last_formating_time
-        if not (3 > delta > 3600):
+        if delta > 3600 or delta < 1:
             await self._format_all()
+            print("jhsghsghkj")
             self._last_formating_time = datetime.datetime.now().timestamp()
 
     async def _format_all(self):
