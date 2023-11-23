@@ -1,5 +1,4 @@
 import datetime
-from re import A
 from typing import Iterable
 
 from aiogram.utils.markdown import bold
