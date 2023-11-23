@@ -10,7 +10,7 @@ from handlers import router
 
 
 async def main() -> None:
-    bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(TOKEN, parse_mode=ParseMode.MARKDOWN)
     dp = Dispatcher()
     dp.include_router(router)
     await dp.start_polling(bot)
