@@ -1,6 +1,4 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton
-from aiogram.utils.keyboard import InlineKeyboardBuilder
-
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 reply_keyboard = ReplyKeyboardMarkup(
     keyboard=[
@@ -15,7 +13,8 @@ reply_keyboard = ReplyKeyboardMarkup(
 
 reply_contest_keyboard = ReplyKeyboardMarkup(
     keyboard=[
-        [KeyboardButton(text="Конкурс «Акселератор технологических стартапов»")],
+        [KeyboardButton(
+            text="Конкурс «Акселератор технологических стартапов»")],
         [KeyboardButton(text="Конкурс «УМНИК»")],
         [KeyboardButton(text="Конкурс «Молодой изобретатель Югры»")]
     ],

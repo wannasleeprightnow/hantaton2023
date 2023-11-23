@@ -2,7 +2,7 @@ import aiohttp
 
 from bs4 import BeautifulSoup
 
-from schemas import Event
+from schemas import Event, News
 
 
 class Parser:
@@ -42,7 +42,7 @@ class Parser:
     async def get_gov_services(self) -> list[str]:
         soup = await self._get_html_page(
             "https://www.tp86.ru/services/services/")
-        
+
         gov_services = soup.find(
             "div",
             {"class": "flex-list mt-40"}).find_all("p", {"class":
@@ -51,7 +51,7 @@ class Parser:
 
     async def get_become_a_resident(self) -> list[str]:
         soup = await self._get_html_page("https://www.tp86.ru/residents/add/")
-        
+
         header = [soup.find("p",
                             {"class": "font-size-22 mb-40 text-color-black font-myriad-pro-weight-400"}).text.strip()]
         criteria = soup.find_all(
@@ -79,13 +79,14 @@ class Parser:
         contest_info = await self._to_text(
             [soup.find("div", {"class": "tn-atom",
                                "field": field}) for field in fields])
-        
+
         contest_info.append("Подробнее: https://www.tech-startups.ru/")
         return contest_info
 
     async def get_umnik(self) -> list[str]:
         soup = await self._get_html_page("https://umnik.fasie.ru/")
         contest_info = []
+
         contest_info += soup.find("div", {
             "class": "b-pres_bl-1-1 b-pres_slide slide"}).find_all("p")
         contest_info += soup.find("span", {
@@ -96,7 +97,7 @@ class Parser:
             "class": "b-pres_nav-item", "data-index": "3"})
         contest_info += soup.find_all("li", {
             "class": "list-item"})
-        
+
         contest_info = await self._to_text(contest_info)
         contest_info.append("Подробнее: https://umnik.fasie.ru/")
         return contest_info
@@ -105,6 +106,7 @@ class Parser:
         soup = await self._get_html_page(
             "https://tp86.ru/molodoy-izobretatel-yugry/index.php")
         contest_info = []
+
         contest_info += soup.find("h2", {"class": "raketa-info__info-title"})
         contest_info += soup.find("h3", {"class": "deadlines__title"})
         contest_info += soup.find_all("p", {"class":
@@ -117,7 +119,30 @@ class Parser:
             "who-participant__title"})
         contest_info += soup.find("div", {"class":
             "who-participant__container"}).find_all("p")
+
         contest_info = await self._to_text(contest_info)
+
         contest_info.append(
             "Подробнее: https://tp86.ru/molodoy-izobretatel-yugry/index.php")
         return contest_info
+
+    async def get_important_news(self) -> list[News]:
+        soup = await self._get_html_page(
+            "https://www.tp86.ru/press-centr/news/")
+        news_info = []
+
+        with open("words.txt") as file:
+            file = [i.strip().lower() for i in file.readlines()]
+
+        news = soup.find_all("a", {"class": "news-element news__list_item"})
+
+        for one_news in news:
+            news_title = one_news.find("p", {"class": "news-element_text-prew font-myriad-pro-weight-400 font-size-22 text-color-black mb-20"}).text.strip()
+            news_date = one_news.find("p", {"class": "news-element_date-day font-myriad-pro-weight-700 text-color-purple mt-40 font-size-36"}).text.strip() + " "
+            news_date += one_news.find("p", {"class": "news-element_date-month font-montserrat-weight-400 font-size-16 mb-15"}).text.strip()
+            news_link = "https://www.tp86.ru/press-centr/news" + one_news["href"]
+
+            if set(file) & set(news_title.lower().split(" ")):
+                news_info.append(News(news_title, news_date, news_link))
+
+        return news_info
