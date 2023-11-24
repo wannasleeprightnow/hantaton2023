@@ -16,7 +16,16 @@ reply_contest_keyboard = ReplyKeyboardMarkup(
         [KeyboardButton(
             text="Конкурс «Акселератор технологических стартапов»")],
         [KeyboardButton(text="Конкурс «УМНИК»")],
-        [KeyboardButton(text="Конкурс «Молодой изобретатель Югры»")]
+        [KeyboardButton(text="Конкурс «Молодой изобретатель Югры»")],
+        [KeyboardButton(text="Назад")],
+    ],
+    resize_keyboard=True,
+)
+
+admin_reply_keyboard = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="Назад")],
+        [KeyboardButton(text="Помощь для администратора")],
     ],
     resize_keyboard=True,
 )

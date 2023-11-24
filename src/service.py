@@ -38,6 +38,7 @@ class Service:
 
     async def _format_all(self):
         try:
+            # raise Exception
             await self._format_events()
             await self._format_gov_services()
             await self._format_become_a_resident()
@@ -141,7 +142,7 @@ class Service:
         contest_info = await self._numerate(
             (3, 5, 7, 9, 11, 13, 15), contest_info)
         contest_info = await self._numerate(list(range(18, 24)), contest_info)
-        contest_info = await self._add_empty_line((1, 9, 16), contest_info)
+        contest_info = await self._add_empty_line((1, 9, 16, 23), contest_info)
         self._formated_umnik = "\n".join(contest_info)
 
     async def _format_young_inventor_of_ugra(self) -> None:
