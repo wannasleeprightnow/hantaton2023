@@ -129,7 +129,7 @@ async def command_help_for_admin_handler(message: types.Message) -> None:
 async def command_add_admin_handler(message: types.Message) -> None:
     user_id = int(message.text.split()[-1])
     try:
-        await execute(ADD_ADMIN, user_id)
+        await execute(ADD_ADMIN, (user_id, ))
         await message.answer("Пользователь добавлен в список администраторов!")
     except Exception:
         await message.answer("Что-то пошло не так!")

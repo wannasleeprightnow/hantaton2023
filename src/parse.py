@@ -131,7 +131,7 @@ class Parser:
             "https://www.tp86.ru/press-centr/news/")
         news_info = []
 
-        with open("words.txt") as file:
+        with open("words.txt", encoding="utf-8") as file:
             file = [i.strip().lower() for i in file.readlines()]
 
         news = soup.find_all("a", {"class": "news-element news__list_item"})
