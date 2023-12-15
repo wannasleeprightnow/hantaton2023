@@ -100,7 +100,10 @@ class Service:
 Даты проведения: {event.date}
 Подробнее: {event.link}\n\n"""
                                 )
-        self._formated_events = formated_events
+        if formated_events:
+            self._formated_events = formated_events
+        else:
+            self._formated_events = "Нет запланированных мероприятий."
 
     async def _format_important_news(self) -> list:
         important_news = await parser.get_important_news()
